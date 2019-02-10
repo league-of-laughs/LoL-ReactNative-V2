@@ -51,10 +51,12 @@ export default class memeRoom extends Component{
                 <TextInput 
                 value={this.state.text}
                 onChangeText ={(topText) => this.setState({topText})}
+                style={style.textInput}
                 />
                 <TextInput 
                 value={this.state.text}
                 onChangeText ={(bottomText) => this.setState({bottomText})}
+                style={style.textInput}
                 />
                 <Button 
                 title="Submit Meme"

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View,TextInput,Text,Button,AsyncStorage} from 'react-native';
+import {View,TextInput,Text,TouchableOpacity,AsyncStorage,Image} from 'react-native';
 
 import Styles from './style';
 
@@ -40,16 +40,25 @@ export default class startPage extends Component{
         else
         return(
             <View style = {Styles.container}>
+            <View style={Styles.header}>
+                <Image style = {Styles.logo} source={require('../../assets/logo.png')}/>
+                <Text>League of Memes</Text>
+            </View>
+            
                 <Text>Enter Name</Text>
                 <TextInput 
                 onChangeText = {(name) => this.setState({name})}
                 value = {this.state.text}
                 style = {Styles.textInput}
                 />
-                <Button 
-                title = "Join"
-                onPress = {this.joinGame}
-                />
+                <TouchableOpacity
+                onPress={this.joinGame}
+                style={Styles.button}
+                >
+                    <Text>Join Game</Text>
+                </TouchableOpacity>
+            
+                
             </View>
         )
     }

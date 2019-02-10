@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View,Button,AsyncStorage} from 'react-native';
+import {View,Button,AsyncStorage,Text} from 'react-native';
 
 import Style from './style'
 
@@ -10,6 +10,15 @@ export default class VotingRoom extends Component{
             vote:null,
             waiting:false
         }
+
+        const {socket} = this.props;
+        socket.on('mobile-startVoting',() => {
+            this.setState({waiting:false});
+        })
+
+        socket.on('gameWinner',(data) => {
+            this.props.history.push('/winner')
+        })
     }
 
     vote = async (number) => {
@@ -22,7 +31,7 @@ export default class VotingRoom extends Component{
             number
         }
 
-        socket.emit('mobile-voteMeme',data)
+        socket.emit('mobile-voteMeme',JSON.stringify(data));
 
         this.setState({waiting:true})
     }
@@ -37,11 +46,11 @@ export default class VotingRoom extends Component{
         return(
             <View style={Style.container}>
                 <Button 
-                label="1"
+                title="1"
                 onPress = {() => this.vote(1)}
                 />
                 <Button 
-                label="2"
+                title="2"
                 onPress = {() => this.vote(2)}
                 />
             </View>
