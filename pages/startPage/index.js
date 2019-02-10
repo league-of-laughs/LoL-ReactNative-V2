@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View,TextInput,Text,TouchableOpacity,AsyncStorage,Image} from 'react-native';
+import {View,TextInput,Text,TouchableOpacity,AsyncStorage,Image,ActivityIndicator} from 'react-native';
 
 import Styles from './style';
 
@@ -34,7 +34,8 @@ export default class startPage extends Component{
         if(this.state.waiting)
             return(
                 <View style = {Styles.container}>
-                    <Text>Waiting for other PLayers</Text>
+                    <Text style={Styles.textStyle}>Waiting for game to start</Text>
+                    <ActivityIndicator style={{marginTop:40}} size="large" color="#0000ff"/>
                 </View>
             )
         else
@@ -42,10 +43,9 @@ export default class startPage extends Component{
             <View style = {Styles.container}>
             <View style={Styles.header}>
                 <Image style = {Styles.logo} source={require('../../assets/logo.png')}/>
-                <Text>League of Memes</Text>
+                <Text style={Styles.title}>League of Memes</Text>
             </View>
-            
-                <Text>Enter Name</Text>
+                <Text style={Styles.textStyle}>Enter Name</Text>
                 <TextInput 
                 onChangeText = {(name) => this.setState({name})}
                 value = {this.state.text}
@@ -55,10 +55,8 @@ export default class startPage extends Component{
                 onPress={this.joinGame}
                 style={Styles.button}
                 >
-                    <Text>Join Game</Text>
+                    <Text style={Styles.textStyle}>Join Game</Text>
                 </TouchableOpacity>
-            
-                
             </View>
         )
     }
