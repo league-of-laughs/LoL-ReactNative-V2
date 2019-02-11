@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View,Button,AsyncStorage,Text} from 'react-native';
+import {View,Button,AsyncStorage,Text,TouchableOpacity,ActivityIndicator} from 'react-native';
 
 import Style from './style'
 
@@ -40,19 +40,29 @@ export default class VotingRoom extends Component{
         if(this.state.waiting)
             return(
                 <View style={Style.container}>
-                    <Text>Waiting for other players</Text>
+                    <Text style={Style.textStyle}>Waiting for other players</Text>
+                    <ActivityIndicator style={{marginTop:40}} size="large" color="#0000ff"/>
                 </View>
             )
         return(
             <View style={Style.container}>
-                <Button 
-                title="1"
+            <Text style={Style.header}>Vote</Text>
+            <View style={Style.buttonContainer}>
+                <TouchableOpacity 
                 onPress = {() => this.vote(1)}
-                />
-                <Button 
-                title="2"
+                style={Style.button}
+                >
+                    <Text style={Style.buttonTextStyle}>1</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
                 onPress = {() => this.vote(2)}
-                />
+                style={Style.button}
+                >
+                    <Text style={Style.buttonTextStyle}>2</Text>
+                </TouchableOpacity>
+            </View>
+            
+                
             </View>
         )
     }

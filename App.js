@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import io from 'socket.io-client';
 import {NativeRouter,Switch,Route} from 'react-router-native';
 
@@ -8,7 +7,8 @@ import MemeRoom from './pages/memeRoom';
 import VotingRoom from './pages/votingRoom';
 import WinnerRoom from './pages/winnerRoom';
 
-let SERVER_URL = "http://8ec978a7.ngrok.io";
+let SERVER_URL = "http://8ec978a7.ngrok.io"; 
+
 const socket = io.connect(SERVER_URL);
 
 
@@ -27,12 +27,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
