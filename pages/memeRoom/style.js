@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet,Platform} from 'react-native';
 
 module.exports = StyleSheet.create({
     container:{
@@ -12,7 +12,7 @@ module.exports = StyleSheet.create({
         borderWidth: 1,
         width: '70%',
         textAlign: 'center',
-        fontFamily:'monospace',
+        fontFamily:Platform.OS==='ios' ? 'courier':'monospace',
         borderBottomColor: 'black',
         borderBottomWidth: 3,
         borderRadius: 3,
@@ -31,20 +31,20 @@ module.exports = StyleSheet.create({
     },
     textStyle: {
         fontSize:20,
-        fontFamily:'monospace',
+        fontFamily:Platform.OS==='ios' ? 'courier':'monospace',
     },
     header:{
         position: 'absolute',
         top: 80,
         fontSize:20,
-        fontFamily:'monospace',
+        fontFamily:Platform.OS==='ios' ? 'courier':'monospace',
         fontWeight: 'bold'
     },
     headerBottom:{
         position: 'absolute',
         top: 110,
         fontSize:20,
-        fontFamily:'monospace',
+        fontFamily:Platform.OS==='ios' ? 'courier':'monospace',
         fontWeight: 'bold'
     }
 })
