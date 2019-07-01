@@ -7,7 +7,7 @@ import MemeRoom from './pages/memeRoom';
 import VotingRoom from './pages/votingRoom';
 import WinnerRoom from './pages/winnerRoom';
 
-let SERVER_URL = "http://5cf06ca9.ngrok.io"; 
+let SERVER_URL = "http://15777ab8.ngrok.io"; 
 
 const socket = io.connect(SERVER_URL);
 
