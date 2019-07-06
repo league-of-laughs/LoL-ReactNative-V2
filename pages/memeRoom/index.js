@@ -1,7 +1,9 @@
 import React,{Component} from 'react';
-import {View,TextInput,Button,Text,AsyncStorage,TouchableOpacity,Image,ActivityIndicator} from 'react-native';
+import {View,TextInput,Text,AsyncStorage,TouchableOpacity,Image,ActivityIndicator} from 'react-native';
 
-import style from './style';
+import CommonStyles from '../../styles/common';
+import Header from '../../components/headers/text';
+import Button from '../../components/button';
 
 export default class memeRoom extends Component{
     constructor(props){
@@ -10,26 +12,12 @@ export default class memeRoom extends Component{
             topText:null,
             bottomText:null,
             waiting: false,
-            topHeight: 40,
-            bottomHeight: 40
         }
         const {socket} = this.props;
 
         socket.on('mobile-startVoting',() => {
             this.props.history.push('/voting')
         })
-    }
-
-    updateSizeTop = (topHeight) => {
-        this.setState({
-          topHeight
-        });
-      }
-
-    updateSizeBottom = (bottomHeight) => {
-    this.setState({
-        bottomHeight
-    });
     }
 
 
@@ -53,41 +41,31 @@ export default class memeRoom extends Component{
         this.setState({waiting:true})
     }
     render(){
-        let {topHeight,bottomHeight} = this.state
-
-      
-        if(this.state.waiting)
-            return(
-                <View style={style.container}>
-                    <Text style={style.textStyle}>Waiting for other players</Text>
-                    <ActivityIndicator style={{marginTop:40}} size="large" color="#0000ff"/>
-                </View>
-            )
-        return(
-            <View style={style.container}>
-                <Text style={style.header}>Fill out the Meme from</Text>
-                <Text style={style.headerBottom}>the screen</Text>
-                <TextInput 
-                placeholder="Top Caption"
-                value={this.state.text}
-                onChangeText ={(topText) => this.setState({topText})}
-                style={style.textInput}
-                returnKeyType={"done"}
-                />
-                <TextInput 
-                placeholder="Bottom Caption"
-                value={this.state.text}
-                onChangeText ={(bottomText) => this.setState({bottomText})}
-                style={style.textInput}
-                returnKeyType={"done"}
-                />
-                <TouchableOpacity 
-                style={style.button}
-                onPress = {this.sendMeme}
-                >
-                    <Text style={style.textStyle}>Submit Meme</Text>
-                </TouchableOpacity>
+      const { waiting } = this.state;
+      const { container, body, inputs, textInput } = CommonStyles;
+      return(
+        waiting ?
+        <View style={ container }>
+          <Header text = "Fill out the meme"/>
+          <Waiting />
+        </View>
+        :
+        <View style={ container }>
+          <Header text = "Fill out the meme"/>
+          <View style={ body }>
+            <View style={ inputs }>
+              <TextInput style={ textInput }
+                onChangeText={ (topText) => this.setState({ topText }) }
+                placeholder='Enter top caption'
+              />
+              <TextInput style={ textInput }
+                onChangeText={ (bottomText) => this.setState({ bottomText }) }
+                placeholder='Enter bottom caption'
+              />
             </View>
-        )
+            <Button text="Submit Meme" onPress={ this.joinGame } />
+          </View>
+        </View>
+      );
     }
 }

@@ -28,14 +28,33 @@ module.exports = StyleSheet.create({
     backgroundColor:'#2A2A2E',
     width: 300
   },
+  voteButton:{
+    alignItems:'center',
+    padding:10,
+    borderRadius:25,
+    backgroundColor:'#2A2A2E',
+    width: 300
+  },
   logo:{
     height: 150,
     width:150,
+  },
+  logoText:{
+    height: 80,
+    width:80,
   },
   header:{
     display:'flex',
     alignItems:'center',
     justifyContent: 'center',
+    backgroundColor: '#2A2A2E',
+    height: '30%'
+  },
+  headerText:{
+    display:'flex',
+    alignItems:'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
     backgroundColor: '#2A2A2E',
     height: '30%'
   },
@@ -59,6 +78,12 @@ inputs: {
     fontSize:20,
     fontFamily:Platform.OS==='ios' ? 'courier':'monospace',
     color: 'white'
+  },
+  headerTextStyle: {
+    fontSize:20,
+    fontFamily:Platform.OS==='ios' ? 'courier':'monospace',
+    color: 'white',
+    marginLeft: 20
   },
   waitingTextStyle: {
     fontSize:20,

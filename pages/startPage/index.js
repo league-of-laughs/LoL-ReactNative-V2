@@ -1,7 +1,10 @@
 import React,{Component} from 'react';
 import { View, TextInput, Text, TouchableOpacity, AsyncStorage, Image, ActivityIndicator } from 'react-native';
 
-import Styles from './style';
+import Header from '../../components/headers/start';
+import Waiting from '../../components/waiting';
+import Button from '../../components/button';
+import CommonStyles from '../../styles/common';
 import Logo from '../../assets/logo.png'
 import Alert from '../../utils/alert';
 
@@ -14,13 +17,12 @@ export default class StartPage extends Component{
     }
     const { socket, history } = this.props
 
-    socket.on('mobile-start',(meme) => {
-      AsyncStorage.setItem('meme',meme);
+    socket.on('mobile-start',() => {
       history.push('/meme')
     });
 
     socket.on('mobile-attempt_join',(response) => {
-      response ? this.setState({ waiting: true }) : Alert.roomAlert();
+      response ? null : Alert.roomAlert();
     });
   }
 
@@ -33,22 +35,21 @@ export default class StartPage extends Component{
     }
     AsyncStorage.setItem("name",name);
     socket.emit('mobile-addPlayer',{ name, room });
+    this.setState({ waiting: true });
   }
 
   render(){
     const { waiting } = this.state;
-    const { container, textStyle, header, body, inputs, textInput, button, logo } = Styles;
+    const { container, header, body, inputs, textInput, logo } = CommonStyles;
     return(
       waiting ?
       <View style={ container }>
-        <Text style={ textStyle}>Waiting for game to start</Text>
-        <ActivityIndicator style={{ marginTop:40 }} size="large" color="#0000ff"/>
+        <Header />
+        <Waiting />
       </View>
       :
       <View style={ container }>
-        <View style={ header }>
-          <Image source={ Logo } style={ logo }/>
-        </View>
+        <Header />
         <View style={ body }>
           <View style={ inputs }>
             <TextInput style={ textInput }
@@ -60,12 +61,7 @@ export default class StartPage extends Component{
               placeholder='Name'
             />
           </View>
-          <TouchableOpacity 
-            style={ button }
-            onPress={ this.joinGame }
-          >
-            <Text style = { textStyle }>Join Game</Text>
-          </TouchableOpacity>
+          <Button text="Join Game" onPress={ this.joinGame } />
         </View>
       </View>
     );

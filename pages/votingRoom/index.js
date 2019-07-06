@@ -1,7 +1,9 @@
-import React,{Component} from 'react';
-import {View,Button,AsyncStorage,Text,TouchableOpacity,ActivityIndicator} from 'react-native';
+import React,{ Component } from 'react';
+import { View, AsyncStorage } from 'react-native';
 
-import Style from './style'
+import CommonStyles from '../../styles/common';
+import Button from '../../components/button/vote';
+import Header from '../../components/headers/text';
 
 export default class VotingRoom extends Component{
     constructor(props){
@@ -37,33 +39,22 @@ export default class VotingRoom extends Component{
     }
 
     render(){
-        if(this.state.waiting)
-            return(
-                <View style={Style.container}>
-                    <Text style={Style.textStyle}>Waiting for other players</Text>
-                    <ActivityIndicator style={{marginTop:40}} size="large" color="#0000ff"/>
-                </View>
-            )
-        return(
-            <View style={Style.container}>
-            <Text style={Style.header}>Vote</Text>
-            <View style={Style.buttonContainer}>
-                <TouchableOpacity 
-                onPress = {() => this.vote(1)}
-                style={Style.button}
-                >
-                    <Text style={Style.buttonTextStyle}>1</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                onPress = {() => this.vote(2)}
-                style={Style.button}
-                >
-                    <Text style={Style.buttonTextStyle}>2</Text>
-                </TouchableOpacity>
-            </View>
-            
-                
-            </View>
-        )
+      const { waiting } = this.state;
+      const { container, body, inputs, textInput } = CommonStyles;
+      return(
+        waiting ?
+        <View style={ container }>
+          <Header text = "Vote"/>
+          <Waiting />
+        </View>
+        :
+        <View style={ container }>
+          <Header text = "Vote"/>
+          <View style={ body }>
+            <Button text="1" onPress={ this.joinGame } />
+            <Button text="2" onPress={ this.joinGame } />
+          </View>
+        </View>
+      );
     }
 }
