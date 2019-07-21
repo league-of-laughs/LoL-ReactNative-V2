@@ -1,34 +1,42 @@
 import React,{Component} from 'react';
-import {View,Text,Image} from 'react-native';
+import { View, Text } from 'react-native';
 
-import styles from './style';
+import CommonStyles from '../../styles/common';
+import Button from '../../components/button';
+import Header from '../../components/headers/start';
 
 export default class WinnerRoom extends Component{
-    constructor(props){
-        super(props);
+  constructor(props){
+    super(props);
 
-        this.state={
-            winner: "Alex123"
-        }
-
-        const{socket} = this.props;
-
-        socket.on('restart',() => {
-            this.props.history.push('/');
-        })
+    this.state={
+      winner: "Alex123"
     }
 
-    render(){
-        return(
-            <View style={styles.container}>
-                <Text style={styles.header}>Congratulations!</Text>
-                <Text style={styles.name}>{this.state.winner}</Text>
-                <Image 
-                style = {styles.logo}
-                source={require('../../assets/logo.png')}
-                />
-                <Text style={styles.footer}>You are the MemeLord!</Text>
-            </View>
-        )
-    }
+    const{ socket } = this.props;
+
+    socket.on('restart',() => {
+      this.props.history.push('/');
+    })
+  }
+
+  reset = () => {
+    const { history } = this.props;
+    history.push('/');
+  }
+
+  render(){
+    const { container, body, waitingTextStyle } = CommonStyles;
+    const { winner } = this.state;
+    return(
+      <View style={ container }>
+        <Header />
+        <View style={ body }>
+          <Text style = { waitingTextStyle }>Winner!</Text>
+          <Text style = { waitingTextStyle }>{ winner }</Text>
+          <Button text="Join new game" onPress={ this.reset } />
+        </View>
+      </View>
+    );
+  }
 }

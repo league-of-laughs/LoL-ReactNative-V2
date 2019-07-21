@@ -4,6 +4,7 @@ import {View,TextInput,Text,AsyncStorage,TouchableOpacity,Image,ActivityIndicato
 import CommonStyles from '../../styles/common';
 import Header from '../../components/headers/text';
 import Button from '../../components/button';
+import Waiting from '../../components/waiting';
 
 export default class memeRoom extends Component{
     constructor(props){
@@ -13,10 +14,15 @@ export default class memeRoom extends Component{
             bottomText:null,
             waiting: false,
         }
-        const {socket} = this.props;
+        const { socket, history } = this.props;
 
-        socket.on('mobile-startVoting',() => {
-            this.props.history.push('/voting')
+        // socket.on('mobile-startVoting',() => {
+        //     history.push('/voting')
+        // });
+
+        socket.on('all-doneUploading', () => {
+          console.log('done')
+          history.push('/voting')
         })
     }
 
@@ -28,8 +34,8 @@ export default class memeRoom extends Component{
     sendMeme = async () => {
         const {socket} = this.props;
         let name = await AsyncStorage.getItem("name");
-        console.log(name);
-        let {topText,bottomText} = this.state;
+        const room = await AsyncStorage.getItem("room");
+        let { topText,bottomText}  = this.state;
 
         let data = {
             name,
@@ -37,7 +43,7 @@ export default class memeRoom extends Component{
             bottomText
         }
 
-        socket.emit('mobile-uploadMeme',JSON.stringify(data));
+        socket.emit('mobile-uploadMeme',room, JSON.stringify(data));
         this.setState({waiting:true})
     }
     render(){
@@ -63,7 +69,7 @@ export default class memeRoom extends Component{
                 placeholder='Enter bottom caption'
               />
             </View>
-            <Button text="Submit Meme" onPress={ this.joinGame } />
+            <Button text="Submit Meme" onPress={ this.sendMeme } />
           </View>
         </View>
       );

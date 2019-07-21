@@ -4,6 +4,7 @@ import { View, AsyncStorage } from 'react-native';
 import CommonStyles from '../../styles/common';
 import Button from '../../components/button/vote';
 import Header from '../../components/headers/text';
+import Waiting from '../../components/waiting';
 
 export default class VotingRoom extends Component{
     constructor(props){
@@ -14,6 +15,7 @@ export default class VotingRoom extends Component{
         }
 
         const {socket} = this.props;
+        
         socket.on('mobile-startVoting',() => {
             this.setState({waiting:false});
         })
@@ -24,35 +26,37 @@ export default class VotingRoom extends Component{
     }
 
     vote = async (number) => {
-        const{socket} = this.props;
+        const{ socket } = this.props;
 
         let name = await AsyncStorage.getItem("name");
-
+        const room =  await AsyncStorage.getItem('room');
         let data = {
             name,
             number
         }
 
-        socket.emit('mobile-voteMeme',JSON.stringify(data));
+        socket.emit('mobile-voteMeme',room, JSON.stringify(data));
 
         this.setState({waiting:true})
     }
 
     render(){
       const { waiting } = this.state;
-      const { container, body, inputs, textInput } = CommonStyles;
+      const { container, body } = CommonStyles;
       return(
         waiting ?
         <View style={ container }>
-          <Header text = "Vote"/>
+          <Header text = "Vote for a meme"/>
           <Waiting />
         </View>
         :
         <View style={ container }>
-          <Header text = "Vote"/>
+          <Header text = "Vote for a meme"/>
           <View style={ body }>
-            <Button text="1" onPress={ this.joinGame } />
-            <Button text="2" onPress={ this.joinGame } />
+            <View style={{ marginBottom: 50 }}>
+              <Button text="1" onPress={ this.vote(1) } />
+            </View>
+            <Button text="2" onPress={ this.vote(2) } />
           </View>
         </View>
       );

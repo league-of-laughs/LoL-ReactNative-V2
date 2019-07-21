@@ -5,7 +5,6 @@ import Header from '../../components/headers/start';
 import Waiting from '../../components/waiting';
 import Button from '../../components/button';
 import CommonStyles from '../../styles/common';
-import Logo from '../../assets/logo.png'
 import Alert from '../../utils/alert';
 
 export default class StartPage extends Component{
@@ -22,19 +21,25 @@ export default class StartPage extends Component{
     });
 
     socket.on('mobile-attempt_join',(response) => {
-      response ? null : Alert.roomAlert();
+      response ? this.joinGame() : Alert.roomAlert();
     });
   }
 
-  joinGame = () => {
+  attempJoinGame = () => {
     const { name, room } = this.state;
-    const { socket } = this.props; 
+    const { socket } = this.props;
+    
     if(!name || !room){
       Alert.inputAlert();
       return;
     }
-    AsyncStorage.setItem("name",name);
     socket.emit('mobile-addPlayer',{ name, room });
+  }
+
+  joinGame = () => {
+    const { name, room } = this.state;
+    AsyncStorage.setItem("name", name);
+    AsyncStorage.setItem("room", room);
     this.setState({ waiting: true });
   }
 
@@ -61,7 +66,7 @@ export default class StartPage extends Component{
               placeholder='Name'
             />
           </View>
-          <Button text="Join Game" onPress={ this.joinGame } />
+          <Button text="Join Game" onPress={ this.attempJoinGame } />
         </View>
       </View>
     );
